@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="windowTitle">
+   <string>Smart Home Device Manager</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="mainLayout">
+    <item>
+     <widget class="QStackedWidget" name="mainStack">
+      <widget class="QWidget" name="page_register">
+       <layout class="QVBoxLayout" name="layout_register">
+        <item>
+         <widget class="QComboBox" name="comboBox_deviceType">
+          <item><property name="text"><string>Light</string></property></item>
+          <item><property name="text"><string>Thermostat</string></property></item>
+          <item><property name="text"><string>Camera</string></property></item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_deviceName">
+          <property name="placeholderText">
+           <string>Device Name</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QStackedWidget" name="deviceInputStack">
+          <widget class="QWidget" name="input_light">
+           <layout class="QVBoxLayout" name="layout_light">
+            <item>
+             <widget class="QSpinBox" name="spinBox_brightness">
+              <property name="maximum">
+               <number>100</number>
+              </property>
+              <property name="minimum">
+               <number>0</number>
+              </property>
+              <property name="prefix">
+               <string>Brightness: </string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="input_thermostat">
+           <layout class="QVBoxLayout" name="layout_thermostat">
+            <item>
+             <widget class="QSpinBox" name="spinBox_temperature">
+              <property name="minimum">
+               <number>10</number>
+              </property>
+              <property name="maximum">
+               <number>30</number>
+              </property>
+              <property name="prefix">
+               <string>Temp °C: </string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="input_camera">
+           <layout class="QVBoxLayout" name="layout_camera">
+            <item>
+             <widget class="QCheckBox" name="checkBox_recording">
+              <property name="text">
+               <string>Start Recording</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_register">
+          <property name="text">
+           <string>Register Device</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page_manage">
+       <layout class="QVBoxLayout" name="layout_manage">
+        <item>
+         <widget class="QComboBox" name="comboBox_selectDevice"/>
+        </item>
+        <item>
+         <widget class="QStackedWidget" name="manageDeviceStack">
+          <widget class="QWidget" name="manage_light">
+           <layout class="QVBoxLayout" name="layout_manage_light">
+            <item>
+             <widget class="QSlider" name="slider_light">
+              <property name="maximum">
+               <number>100</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="manage_thermostat">
+           <layout class="QVBoxLayout" name="layout_manage_thermostat">
+            <item>
+             <widget class="QSlider" name="slider_thermo">
+              <property name="minimum">
+               <number>10</number>
+              </property>
+              <property name="maximum">
+               <number>30</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="manage_camera">
+           <layout class="QVBoxLayout" name="layout_manage_camera">
+            <item>
+             <widget class="QPushButton" name="pushButton_toggleRecording">
+              <property name="text">
+               <string>Toggle Recording</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page_overview">
+       <layout class="QVBoxLayout" name="layout_overview">
+        <item>
+         <widget class="QTextBrowser" name="textBrowser_overview"/>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="nav_buttons_layout">
+      <item><widget class="QPushButton" name="btn_goToRegister"><property name="text"><string>Register</string></property></widget></item>
+      <item><widget class="QPushButton" name="btn_goToManage"><property name="text"><string>Manage</string></property></widget></item>
+      <item><widget class="QPushButton" name="btn_goToOverview"><property name="text"><string>Overview</string></property></widget></item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
