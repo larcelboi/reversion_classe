@@ -1,0 +1,26 @@
+{
+    "py/object": "stockage.Stockage",
+    "lst_tout": [
+        {
+            "py/object": "classes_sous.Light",
+            "_name": "beyblade",
+            "_type_vechile": "light",
+            "_status": true,
+            "_brightness": 0
+        },
+        {
+            "py/object": "classes_sous.Thermostat",
+            "_name": "jojo",
+            "_type_vechile": "thermostat",
+            "_status": true,
+            "_temperature": 61
+        },
+        {
+            "py/object": "classes_sous.Camera",
+            "_name": "fg",
+            "_type_vechile": "thermostat",
+            "_status": true,
+            "_is_recording": true
+        }
+    ]
+}

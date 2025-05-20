@@ -1,0 +1,107 @@
+{
+    "py/object": "classes.vehicule_manager.Vehicule_manager",
+    "lst_vehicule": [
+        {
+            "py/object": "classes.vehicule.Vehicule",
+            "_name": "dfds",
+            "_type_vechile": {
+                "py/reduce": [
+                    {
+                        "py/type": "vehicule_type.type_vehicule.Type_vehicule"
+                    },
+                    {
+                        "py/tuple": [
+                            "Car"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "py/object": "classes.vehicule.Vehicule",
+            "_name": "dfds",
+            "_type_vechile": {
+                "py/id": 3
+            }
+        },
+        {
+            "py/object": "classes.vehicule.Vehicule",
+            "_name": "vcxzc",
+            "_type_vechile": {
+                "py/id": 3
+            }
+        },
+        {
+            "py/object": "classes.vehicule.Vehicule",
+            "_name": "vcxzc",
+            "_type_vechile": {
+                "py/reduce": [
+                    {
+                        "py/type": "vehicule_type.type_vehicule.Type_vehicule"
+                    },
+                    {
+                        "py/tuple": [
+                            "Bike"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "py/object": "classes.vehicule.Vehicule",
+            "_name": "df",
+            "_type_vechile": {
+                "py/id": 3
+            }
+        },
+        {
+            "py/object": "classes.vehicule.Vehicule",
+            "_name": "asd",
+            "_type_vechile": {
+                "py/id": 3
+            }
+        },
+        {
+            "py/object": "classes.vehicule.Vehicule",
+            "_name": "asd",
+            "_type_vechile": {
+                "py/id": 3
+            }
+        },
+        {
+            "py/object": "classes.vehicule.Vehicule",
+            "_name": "sadas",
+            "_type_vechile": {
+                "py/id": 3
+            }
+        },
+        {
+            "py/object": "classes.vehicule.Vehicule",
+            "_name": "sadas",
+            "_type_vechile": {
+                "py/id": 3
+            }
+        },
+        {
+            "py/object": "classes.vehicule.Vehicule",
+            "_name": "sadas",
+            "_type_vechile": {
+                "py/id": 3
+            }
+        },
+        {
+            "py/object": "classes.vehicule.Vehicule",
+            "_name": "Arise",
+            "_type_vechile": {
+                "py/id": 7
+            }
+        },
+        {
+            "py/object": "classes.vehicule.Vehicule",
+            "_name": "Arise",
+            "_type_vechile": {
+                "py/id": 7
+            }
+        }
+    ]
+}

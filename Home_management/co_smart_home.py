@@ -1,6 +1,7 @@
 import sys
 
-from PySide6.QtWidgets import QMainWindow, QApplication
+from PySide6.QtCore import QMessageLogContext
+from PySide6.QtWidgets import QMainWindow, QApplication, QMessageBox
 
 from Home_management.type_enum.type_device import Device_type
 from Home_management.ui_smart_home_manager import Ui_MainWindow
@@ -14,13 +15,46 @@ class Home(QMainWindow):
         self.ui.setupUi(self)
 
         self.refresh_tout()
+
         self.ui.comboBox_deviceType.currentTextChanged.connect(self.device_type_changed)
         self.ui.pushButton_register.clicked.connect(self.gerer_class)
         self.ui.btn_goToRegister.clicked.connect(self.set_page_register)
         self.ui.btn_goToManage.clicked.connect(self.set_page_manage)
         self.ui.btn_goToOverview.clicked.connect(self.set_page_overview)
-        self.ui.comboBox_selectDevice.currentTextChanged.connect(self.changing_stuff)
+        self.ui.comboBox_selectDevice.currentIndexChanged.connect(self.changing_stuff)
         self.ui.pushButton_toggleRecording.clicked.connect(self.changer_toggle)
+        self.ui.slider_light.valueChanged.connect(self.changer_bright_thermo)
+
+    def obtenir_value_slidder_bar(self):
+        valeur_slide_bar = self.ui.slider_light.value()
+        print(valeur_slide_bar)
+        return valeur_slide_bar
+
+    def changer_bright_thermo(self):
+        nom_combo_box = self.ui.comboBox_selectDevice.currentText()
+        print(nom_combo_box)
+        valeur_slide_bar = self.obtenir_value_slidder_bar()
+        for personne in stocker.lst_tout:
+            if personne.name == nom_combo_box:
+                if isinstance(personne, Light) and hasattr(personne,"set_brightness"):
+                        personne.set_brightness(valeur_slide_bar)
+                        stocker.sauvegardder()
+                        break
+                elif isinstance(personne, Thermostat) and hasattr(personne,"set_temperature"):
+                        personne.set_temperature(valeur_slide_bar)
+                        stocker.sauvegardder()
+                        break
+        self.afficher_device()
+
+
+    def verification_personne_creer(self,verification):
+        if len(stocker.lst_tout) == 0:
+            return True
+        for personne in stocker.lst_tout:
+            if personne.name == verification.name:
+                QMessageBox.warning(self,"Nom déjà crée",f"{verification.name} a déjà été crée")
+                return False
+        return True
 
     def changer_toggle(self):
         device_camera,index = self.changing_stuff()
@@ -29,35 +63,38 @@ class Home(QMainWindow):
             recording = True
         else:
             recording = False
+
         if hasattr(device_camera, 'toggle_recording'):
             device_camera.toggle_recording(recording)
             stocker.lst_tout[index] = device_camera
             stocker.sauvegardder()
+            self.afficher_device()
 
     def changing_stuff(self):
         nom_persone = self.ui.comboBox_selectDevice.currentText()
-        device_caemra = None
-        index = None
-        for i,device in enumerate(stocker.lst_tout):
+        device_camera = None
+        idx = None
+
+        for i, device in enumerate(stocker.lst_tout):
             if nom_persone == device.name and isinstance(device, Light):
                 self.ui.manageDeviceStack.setCurrentIndex(1)
                 break
-            elif nom_persone == device.name and isinstance(device,Camera):
-                device_caemra = device
-                index = i
+            elif nom_persone == device.name and isinstance(device, Camera):
+                device_camera = device
+                idx = i
                 self.ui.manageDeviceStack.setCurrentIndex(2)
-                return device_caemra,index
             elif nom_persone == device.name and isinstance(device, Thermostat):
                 self.ui.manageDeviceStack.setCurrentIndex(0)
                 break
 
-
+        return device_camera, idx
 
     def refresh_tout(self):
         self.afficher_device()
         self.afficher_device_manage()
 
     def afficher_device_manage(self):
+        self.ui.comboBox_selectDevice.clear()
         for nom in stocker.lst_tout:
             self.ui.comboBox_selectDevice.addItem(f"{nom.name}")
     def afficher_device(self):
@@ -95,39 +132,58 @@ class Home(QMainWindow):
         nom = self.ui.lineEdit_deviceName.text()
         brightness_level = int(self.ui.spinBox_brightness.value())
         valeur = Device_type.LIGHT.value
-        verification = Light(nom,valeur,True,brightness_level)
-        if verification:
-            print(f"{verification.name} a été enregistré")
-            stocker.lst_tout.append(verification)
-            stocker.sauvegardder()
-            self.refresh_tout()
+        try:
+            verification = Light(nom, valeur, True, brightness_level)
+        except Exception as e:
+            QMessageBox.warning(self, "Erreur", f"{e}")
+            return
+        else:
+            if verification:
+                if  self.verification_personne_creer(verification):
+                    QMessageBox.information(self,"Sauvegarder",f"{verification.name} a été enregistré")
+                    stocker.lst_tout.append(verification)
+                    stocker.sauvegardder()
+                    self.refresh_tout()
+
 
     def thermostat_device(self):
         nom = self.ui.lineEdit_deviceName.text()
+        print(nom)
         temperature = int(self.ui.spinBox_temperature.value())
         valeur = Device_type.THERMOSTAT.value
-        verification = Thermostat(nom, valeur, True, temperature)
-        if verification:
-            print(f"{verification.name} a été enregistré")
-            stocker.lst_tout.append(verification)
-            stocker.sauvegardder()
-            self.refresh_tout()
+        try:
+            verification = Thermostat(nom, valeur, True, temperature)
+        except Exception as e:
+            QMessageBox.warning(self,"Erreur",f"{e}")
+            return
+        else:
+            if verification:
+                if  self.verification_personne_creer(verification):
+                    QMessageBox.information(self,"Sauvegarder",f"{verification.name} a été enregistré")
+                    stocker.lst_tout.append(verification)
+                    stocker.sauvegardder()
+                    self.refresh_tout()
 
     def camera_device(self):
         nom = self.ui.lineEdit_deviceName.text()
         recording = self.ui.checkBox_recording.checkState()
         print(recording)
         valeur = Device_type.THERMOSTAT.value
-        if recording:
-            verification = Camera(nom, valeur, True, True)
+        try:
+            if recording.value == 2:
+                verification = Camera(nom, valeur, True, True)
+            else:
+                verification = Camera(nom, valeur, True, False)
+        except Exception as e:
+            QMessageBox.warning(self, "Erreur", f"{e}")
+            return
         else:
-            verification = Camera(nom, valeur, True, False)
-
-        if verification:
-            print(f"{verification.name} a été enregistré")
-            stocker.lst_tout.append(verification)
-            stocker.sauvegardder()
-            self.refresh_tout()
+            if verification:
+                if  self.verification_personne_creer(verification):
+                    QMessageBox.information(self,"Sauvegarder",f"{verification.name} a été enregistré")
+                    stocker.lst_tout.append(verification)
+                    stocker.sauvegardder()
+                    self.refresh_tout()
 
 
 if __name__ == "__main__":
