@@ -29,7 +29,7 @@ class Drone(Robot):
             self.start_mission()
 
     def __str__(self):
-        return super().__str__() + f"Altitude: {self.altitude}"
+        return super().__str__() + f" Altitude: {self.altitude}"
 
 class Groundrobot(Robot):
     def __init__(self, name: str, speed: int, mode: Mode, mision_active: bool):

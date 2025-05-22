@@ -7,7 +7,7 @@ class Robot:
         self.speed = speed
         self.mode = mode
         self.mision_active = mision_active
-        self.status = ""
+        self.status = "Active"if self.mision_active else "Inactive"
 
     def erreur_name(self,nouv_name):
         try:
@@ -60,11 +60,14 @@ class Robot:
 
 
     def start_mission(self):
-        if not self.mision_active:
-            self.mision_active = True
-            self.status = "Active"
-        else:
-            raise RuntimeError("mision_active must be is already active(True)")
+        try:
+            if not self.mision_active:
+                self.mision_active = True
+                self.status = "Active"
+            else:
+                raise RuntimeError(f"Le robot {self.name} est déjà en mission ")
+        except Exception as e:
+            Robot._liste_erreur.append(e)
 
     def emergency_stop(self):
         self.mision_active = False
@@ -75,4 +78,4 @@ class Robot:
         self.mode = mode
 
     def __str__(self):
-        return f"Nom : {self.name} Speed: {self.speed} Mode: {self.mode} Mission {self.status}"
+        return f"Nom : {self.name} Speed: {self.speed} Mode: {self.mode.value} Mission {self.status}"
