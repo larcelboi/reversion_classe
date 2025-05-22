@@ -13,6 +13,8 @@ class Track_robot(QMainWindow):
         self.ui = Ui_RobotControlWindow()
         self.ui.setupUi(self)
 
+        for mode_robot in list(Mode):
+            self.ui.comboBox.addItem(mode_robot.value)
         self.cacher_altitude()
         self.ui.comboBox_robotType.currentTextChanged.connect(self.cacher_altitude)
         self.ui.lineEdit_robotName.setPlaceholderText("Nom du robot")
@@ -37,18 +39,34 @@ class Track_robot(QMainWindow):
         speed = self.ui.spinBox.value()
         mission_active = self.ui.lineEdit.text().capitalize()
         altitude = self.ui.spinBox_2.value()
+        mode_robot = self.ui.comboBox.currentText()
 
 
-        verification_robot = Drone(nom, type_robot, speed, mission_active, altitude)
 
         try:
-
             if  mission_active.strip() == "":
                 raise ValueError("Vous devez remplir la casse Mission active")
             elif mission_active.strip() not in ["True", "False"]:
                 raise ValueError("La case Mission active doit être True ou False")
         except Exception as e:
             Robot._liste_erreur.append(e)
+
+        robot_mode = None
+        if mode_robot == "Patrol":
+            robot_mode = Mode.PATROL
+        elif mode_robot == "Search":
+            robot_mode = Mode.SEARCH
+        elif mode_robot == "RETURN":
+            robot_mode = Mode.RETURN
+
+        true_or_false = None
+        if mission_active == "True":
+            true_or_false = True
+        elif mission_active == "False":
+            true_or_false = False
+
+        verification_robot = Drone(nom, speed, robot_mode, true_or_false, altitude)
+
         erreur_str = ""
         if len(Robot._liste_erreur) >=1:
             for chiffre,erreur in  enumerate(Robot._liste_erreur,start=1):

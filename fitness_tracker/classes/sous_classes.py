@@ -2,7 +2,7 @@ from .robot import Robot
 from fitness_tracker.type_enum.enum_mode import Mode
 
 class Drone(Robot):
-    def __init__(self,name: str,speed: int,mode: Mode,mision_active: bool,altitude:int):
+    def __init__(self, name: str, speed: int, mode: Mode, mision_active: bool,altitude:int):
         super().__init__(name, speed, mode,mision_active)
         self.altitude = altitude
 
@@ -32,5 +32,5 @@ class Drone(Robot):
         return super().__str__() + f"Altitude: {self.altitude}"
 
 class Groundrobot(Robot):
-    def __init__(self,name: str,speed: int,mode: Mode,mision_active: bool):
+    def __init__(self, name: str, speed: int, mode: Mode, mision_active: bool):
         super().__init__(name, speed, mode,mision_active)
